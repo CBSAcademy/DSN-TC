@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Test transformation SCORM</title>
+<style>
+  * { box-sizing:border-box; }
+  html, body { margin:0; height:100%; }
+  body { font-family:Arial,sans-serif; background:#1E2A4A; color:#fff; }
+
+  .slide { display:none; height:100vh; flex-direction:column; }
+  #s1 { display:flex; }
+  .slide:target { display:flex; }
+  /* Masque la 1ere slide des qu'une AUTRE slide est ciblee (necessite :has, navigateurs recents) */
+  body:has(.slide:target) #s1:not(:target) { display:none; }
+
+  .slideArea { flex:1; display:flex; align-items:center; justify-content:center; overflow:hidden; padding:16px; }
+  .slideArea img { max-width:100%; max-height:100%; box-shadow:0 4px 20px rgba(0,0,0,.4); }
+
+  .bar { display:flex; align-items:center; justify-content:space-between;
+          padding:12px 24px; background:#16203a; }
+  .counter { font-size:13px; color:rgba(255,255,255,.7); min-width:60px; text-align:center; }
+
+  .nav-btn { background:#1C7293; color:#fff; border:none; padding:10px 20px;
+              border-radius:6px; font-size:14px; text-decoration:none; display:inline-block; }
+  .nav-btn.disabled { background:#3a4560; color:rgba(255,255,255,.4); pointer-events:none; }
+
+  /* Verrouillage temporaire du bouton Suivant : desactive au depart, puis */
+  /* pointer-events repasse a "auto" apres 8s via animation CSS. */
+  .nav-btn.next:not(.disabled) {
+    pointer-events:none;
+    opacity:.45;
+    animation: unlockNext 0s forwards;
+    animation-delay: 8s;
+  }
+  @keyframes unlockNext {
+    to { pointer-events:auto; opacity:1; }
+  }
+</style>
+</head>
+<body>
+
+  <section class="slide" id="s1">
+    <div class="slideArea"><img src="https://sandie15.github.io/testperso/slides/slide-1.jpg" alt="Diapositive 1"></div>
+    <div class="bar">
+      <span class="nav-btn prev disabled">Précédent</span>
+      <span class="counter">1 / 3</span>
+      <a href="#s2" class="nav-btn next">Suivant</a>
+    </div>
+  </section>
+
+  <section class="slide" id="s2">
+    <div class="slideArea"><img src="https://sandie15.github.io/testperso/slides/slide-2.jpg" alt="Diapositive 2"></div>
+    <div class="bar">
+      <a href="#s1" class="nav-btn prev">Précédent</a>
+      <span class="counter">2 / 3</span>
+      <a href="#s3" class="nav-btn next">Suivant</a>
+    </div>
+  </section>
+
+  <section class="slide" id="s3">
+    <div class="slideArea"><img src="https://sandie15.github.io/testperso/slides/slide-3.jpg" alt="Diapositive 3"></div>
+    <div class="bar">
+      <a href="#s2" class="nav-btn prev">Précédent</a>
+      <span class="counter">3 / 3</span>
+      <span class="nav-btn next disabled">Terminé</span>
+    </div>
+  </section>
+</body>
+</html>
